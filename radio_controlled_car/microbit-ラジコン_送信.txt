@@ -1,0 +1,51 @@
+input.onButtonPressed(Button.A, function () {
+    ax += -10
+})
+input.onButtonPressed(Button.B, function () {
+    ax += 10
+})
+input.onButtonPressed(Button.AB, function () {
+    ax = a
+})
+let sy = 0
+let y = 0
+let sx = 0
+let x = 0
+let ax = 0
+let a = 0
+radio.setGroup(1)
+a = 100
+ax = a
+basic.showIcon(IconNames.Yes)
+basic.forever(function () {
+    x = pins.analogReadPin(AnalogPin.P0) + ax
+    sx = Math.round(pins.map(
+    x,
+    0,
+    1023,
+    50,
+    130
+    ))
+    radio.sendValue("handoru", sx)
+    y = pins.analogReadPin(AnalogPin.P1)
+    if (y >= 550) {
+        sy = Math.round(pins.map(
+        y,
+        550,
+        1023,
+        1,
+        1023
+        ))
+    } else if (y <= 450) {
+        sy = Math.round(pins.map(
+        y,
+        0,
+        450,
+        1023,
+        1
+        )) * -1
+    } else {
+        sy = 0
+    }
+    radio.sendValue("akuseru", sy)
+})

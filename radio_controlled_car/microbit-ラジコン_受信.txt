@@ -1,0 +1,32 @@
+radio.onReceivedValue(function (name, value) {
+    if (name == "handoru") {
+        sx = value
+    }
+    if (name == "akuseru") {
+        if (value > 0) {
+            pins.digitalWritePin(DigitalPin.P1, 0)
+            pins.digitalWritePin(DigitalPin.P2, 1)
+            sy = value
+        } else if (value < 0) {
+            pins.digitalWritePin(DigitalPin.P1, 1)
+            pins.digitalWritePin(DigitalPin.P2, 0)
+            sy = value * -1
+        } else {
+            pins.digitalWritePin(DigitalPin.P1, 1)
+            pins.digitalWritePin(DigitalPin.P2, 1)
+            sy = 0
+        }
+        pins.analogWritePin(AnalogPin.P8, sy)
+    }
+})
+let sy = 0
+let sx = 0
+radio.setGroup(1)
+basic.showIcon(IconNames.Yes)
+sx = 90
+sy = 0
+pins.digitalWritePin(DigitalPin.P1, 0)
+pins.digitalWritePin(DigitalPin.P2, 0)
+basic.forever(function () {
+    pins.servoWritePin(AnalogPin.P0, sx)
+})
